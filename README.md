@@ -51,6 +51,37 @@
 ### Step 5
 
 * Add code to app.js for onGesture() function.
+```
+  ionic.onGesture('touch drag transform dragend', function(e) {
+    e.gesture.srcEvent.preventDefault();
+    e.gesture.preventDefault();
+    switch (e.type) {
+    case 'touch':
+      last_scale = scale;
+      last_rotation = rotation;
+      break;
+    case 'drag':
+      posX = e.gesture.deltaX + lastPosX;
+      posY = e.gesture.deltaY + lastPosY;
+      break;
+    case 'transform':
+      rotation = e.gesture.rotation + last_rotation;
+      scale = e.gesture.scale * lastScale
+      break;
+    case 'dragend':
+      lastPosX = posX;
+      lastPosY = posY;
+      lastScale = scale;
+      break;
+    }
+    var transform =
+      "translate3d(" + posX + "px," + posY + "px, 0) " +
+      "scale(" + scale + ")" +
+      "rotate(" + rotation + "deg) ";
+    e.target.style.transform = transform;
+    e.target.style.webkitTransform = transform;
+  }, $element[0]);
+```
 
 ### Step 6
 
